@@ -1,19 +1,10 @@
 require 'puppetdb'
-require 'puppet'
 
 class PuppetGhostbuster
   class PuppetDB
-    Puppet.initialize_settings
 
     def self.client
-      @@client ||= ::PuppetDB::Client.new({
-        :server => "#{ENV['PUPPETDB_URL'] || PuppetDB::Config.config.server_urls[0]}",
-        :pem    => {
-          'key'     => ENV['PUPPETDB_KEY_FILE'] || Puppet[:hostprivkey],
-          'cert'    => ENV['PUPPETDB_CERT_FILE'] || Puppet[:hostcert],
-          'ca_file' => ENV['PUPPETDB_CACERT_FILE'] || Puppet[:localcacert],
-        }
-      }, 4)
+      @@client ||= ::PuppetDB::Client.new()
     end
 
     def client
